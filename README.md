@@ -1,10 +1,13 @@
 CTL-Term-Paper
 ==============
-In this work, i have designed a process to convert Coal to Natural Gas Liquids and mixed alcohols. 
+In this work, a process to convert Coal to Natural Gas Liquids and mixed alcohols was designed and optimization approachs to convert it into different Natural gas liquids was developed. 
 
-A mathematical program is constructed in LINGO to optimize the necessary conditions to produce a particular maximum compoment.
+A mathematical program is constructed in LINGO to optimize the necessary conditions to produce a maximum of a particular compoment.
 
 This was a part of my work submitted to Texas A&M University.
+
+
+
 
 
 
