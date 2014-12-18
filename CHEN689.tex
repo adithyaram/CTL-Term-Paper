@@ -1,0 +1,931 @@
+\documentclass[journal=iecred,manuscript=article]{achemso}
+%\usepackage[left=2.5cm,right=3.5cm,top=2.5cm,bottom=3.5cm,a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{chemstyle}
+\usepackage{mhchem}
+\usepackage{float}
+\restylefloat{table}
+\usepackage{placeins}
+
+
+\renewcommand*\thetable{\Roman{table}}
+
+\title{Process Optimization of Coal to Natural Gas Liquids via Fischer-Tropsch Gasification}
+\author{Adithyaram Narayan}
+\email{adinar@tamu.edu}
+\affiliation{Mary Kay O'Connor Process Safety Center, Artie McFerrin Department of Chemical Engineering, Texas A\&M University, College Station, Texas 77843-3122, USA} 
+%\alsoaffiliation{ Texas A\&M University}
+%\date{November 29, 2014}
+
+%\tableofcontents{}
+
+\begin{document}
+\abstract{Coal along with Shale Gas and Crude oil remains the major source of energy and feed stock for the foreseeable future. Coal reserves are approximately 20 times more than the crude oil reserves and hence there is a growing interest in coal gasification to liquid fuels via the Fisher-Tropsch technology. In this work, the process of converting coal to natural gas liquids is studied and the mass targets are obtained for fractions C2-C3 and methanol. The optimum composition of the syngas derived from the coal gasification is calculated for each of the component. Also, a  general framework is developed to produce C1-C3 hydrocarbons from syngas derived from coal gasification. The insights obtained from this model, can be used to investigate possible technologies and the energy trade offs of the different technologies. Suitable product portfolio can be suggested for a given composition of coal.}
+
+\section*{Introduction}
+Gas to Liquid Fuel plants have attracted tremendous attention recently due to the abundance of Shale Gas in the US. Shale gas can be converted into useful synthetic liquid fuels via the Fisher-Tropsch reaction. The syngas route is especially favorable due to the low sulfur content of the liquid fuels. Coal, is one of the promising alternative to shale gasification and can be  used as a feed stock to produce hydrogen, methanol and other chemicals. There is a lot of interest in using coal, biomass to convert it to liquid fuel to displace part of the energy consumption by the transport sector\cite{ref22}. The state of the art approach that researchers undertake is the optimization of a hybrid of coal and biomass feedstock to produce liquid fuels\cite{Floudas201224}.\\
+
+Coal is an attractive feedstock that can be used to produce synthetic liquid fuels and thus attention has shifted towards coal gasification to produce liquid fuels in countries that have very large coal reserves\cite{Steynberg199941}. Coal is burned for fuel and electricity production, but there is growing interest in countries like China, South Africa and India to produce large Coal to Liquid Fuel facilities to reduce dependence on oil from imports by producing a part of synthetic lubricants and fuels\cite{Steynberg2004765} and thereby reduce the dependence on imported crude oil as the major energy source.  \\
+
+The Fisher-Tropsch synthesis is the main process that will be used to produce syngas from Coal and convert it into liquid fuels. This case study, will be restricted  to optimization of Coal gas to Ethane, Propane isomers and Methanol. Ethane, Propane and Butane are part of the hydrocarbon system referred to as \textbf{Natural Gas Liquids}, which is a versatile feed stock that can be manipulated to a variety of products. According to the Energy Information Agency\cite{eia}, the ethane market is currently the largest. Coal is attractive due to its relatively cheap cost (\$2-\$2.5/MM Btu) compared to Natural Gas (\$4.8-\$5.8/MM Btu)\cite{econ}. When mixed with solid waste or other biomass, the option of coal gasification is both economically and environmentally desirable\cite{Floudas201016}.\\ 
+
+\section*{Problem Statement}
+The deliverables of this study will be as follows
+
+\begin{enumerate}
+\item Targeting the maximum yield of Ethane, Propane and Butane from coal.
+
+\item Optimization of conditions necessary for each of the product from feed.
+
+\item Optimization of Coal Selection and thereby, the coal gas composition.
+
+%\item A heat exchange network to integrate the heat required to gasify coal and for the formation of liquid fuel will be generated and quantified. 
+\end{enumerate}
+
+These specific problems will be formulated into a mathematical programming problem and will be solved using LINGO\textsuperscript{\textregistered}.   
+
+\section*{Model Description}
+The Chemical potential $\mu$ is defined as  
+\begin{equation}
+\mu_i = {\Delta G_f{}_i^o} + \textrm{RT } ln( \frac{y_i\hat{\phi_i}P}{P^o})
+\end{equation}
+
+Assuming that all the species  involved are ideal gas, at 1 bar and $T\geq 273.15K$ the following equation maybe applied, to minimize the gibbs free energy for a given set of equilibrium reactions. The reaction enthalpies are mentioned next to the 
+
+\begin{equation}
+\frac{{\Delta G_f_i}^o}{RT}+ ln \frac{n_i}{\sum_{\substack{k}} n_i} + \sum_{\substack{k}} { \frac{\lambda_k} {\textrm RT}} a_{ik} = 0
+\end{equation}
+
+The ${\Delta G_f}^o$ data of the species were taken from the Handbook of Chemistry and Physics\cite{crc} and were fit to a quadratic equation to model the change of ${\Delta G_f}^o$ with respect to temperature. \\
+
+The model that was developed, used a set of equilibrium reactions and the total Gibbs free energy was minimized for a set of objectives (temperature, specific product yields). This model gives an estimate of the outlet composition given a set of reactions. For the input, 3 streams are considered namely Carbon Monoxide, Carbon Dioxide and Steam. \\
+
+The optimization model was run to simulate the equilibrium product distribution for the following conditions
+\begin{itemize}
+\item For a given composition of Coal, the operating conditions to obtain syngas. 
+\item The process conditions of the reformer for maximizing the equilibrium composition of a particular component.
+\item The equilibrium composition of the products for a given feed ratio.
+\end{itemize}
+
+\subsection{Reaction Models}
+The following reactions are considered as the possible 
+reactions that take place in the reformer and the coal gasifier.\\
+
+\begin{scheme}
+\ce{C + H_{2}O <=> CO + H2}   \hfill{$\Delta H^o$ = -152kJ/mol} \\
+\ce{CO + H_{2}O <=> CO2 + H2} \hfill{$\Delta H^o$ = -41 kJ/mol} \\
+\ce{C + CO2 <=> 2CO} \hfill{$\Delta H^o$ = 172kJ/mol} \\
+\ce{nCO + (2n +1)H2 <=> C_nH_{2n+2} + nH_{2}O}
+\hfill{$\Delta H^o$ = -167kJ/mol/CO} \\
+\ce{nCO + (2n+2)H2 <=> C_nH_{2n} + nH_{2}O}
+\hfill{$\Delta H^o$ = -167kJ/mol/CO} \\
+\ce{nCO + 2nH2 <=> C_nH_{2n+1}OH + (n-1)H_{2}O}
+\hfill{$\Delta H^o$ = -72kJ/mol/CO}
+\end{scheme}
+
+The Model variables to be optimized are as follows 
+\begin{itemize}
+\item Temperature 300-1500 K
+\item Inlet stream concentration (Steam and Carbon Dioxide)
+\end{itemize}
+\\
+The constraints placed on the model were as follows 
+\begin{itemize}
+\item Steam concentration $\leq$ 5 times the inlet carbon concentration (Coal)
+\item Carbon Dioxide concentration $\leq$ 2 times the inlet carbon concentration (Coal)
+\item Mass balance of atomic entities (Inlet carbon, hydrogen and oxygen atoms are equal to output streams)
+\item Energy Input and Output depends on the Enthalpies of the components (i.e No Energy Loss)
+\end{itemize} 
+
+
+\section{Results}
+The mass targets can be obtained by 2 possible methods,
+these are 
+\begin{itemize}
+\item The possible syngas composition from the given coal composition
+\item The syngas composition required for each of the componments obtained stoichiometrically  
+\end{itemize}
+
+The results from both the approaches are discussed below.
+
+\subsection{Syngas ratios for each component}
+From the reaction stoichiometry, the syngas ratio $(CO:H_2)$ required are tabulated below. The underlying assumption is that the selectivity of the product is 100\% and hence represent the best case scenarios. Later these numbers will be used to analyze the equilibrium composition of the products at different temperatures.\\
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The mass targets for each components obtained from stoichiometry}
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline
+Component & Ratio of $H_2:CO$ \\
+\hline
+CH_4       & 3     \\
+\hline
+C_2H_6      & 2.5   \\
+\hline
+C_2H_4      &  1.5     \\
+\hline
+C_3H_6      & 1.5  \\
+\hline
+C_3H_8      & 2.34  \\
+\hline
+CH_3OH     & 2   \\
+\hline 
+
+\end{tabular}
+
+\end{table}
+\FloatBarrier
+
+
+\subsection{Syngas ratios obtained from a given coal composition}
+For the sake of simplicity, the following coal compositions were considered for the gasification due to the availability of data and its common usage. An equilibrium model was developed to investigate the composition of the outlet. The coal composition considered
+\begin{itemize}
+\item Illinois No-6 Bituminous Coal\cite{Floudas201016}
+\item Pittsburg No-8 Coal\cite{CoalPer}
+\end{itemize} 
+
+The composition data were obtained from literature are tabulated below,
+ 
+\FloatBarrier
+\begin{table}
+\centering
+\caption{The composition data on (reported in \% dry basis)}
+\begin{tabular}{|c|c|c|}
+\hline\hline
+Component & Illinois \#6 & Pittsburg \#8 \\
+\hline
+C      & 80.23   & 77.2 \\
+\hline
+H     & 5.42 & 5.2\\
+\hline
+O     & 9.06  & 5.9  \\
+\hline
+N      & 1.58 &  1.19 \\
+\hline
+S      & 3.6 &  2.6 \\
+\hline
+Ash     & 11.4 & 7.9 \\
+\hline
+HHV (kJ/g)     & 27.114 & 31.8 \\
+\hline
+ 
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\subsection{Reformer Modeling}
+The optimization code is run at different temperature using a constant steam ratio to determine the equilibrium concentration. These are tabulated as follows
+\subsubsection{Temperature 500K}
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The equilibrium composition in the Reformer at 500K} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 500 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 1 \\
+\hline
+Z	& 1 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 1 \\
+\hline
+NINH2O	& 1 \\
+\hline
+NCH4 &	$0.2201544*10^{-1}$ \\
+\hline
+NCO	& $0.9040899*10^{-4}$ \\
+\hline
+NCO2	& 1.977876 \\
+\hline
+NC2H6	& $0.1736623*10^{-7}$ \\
+\hline
+NC2H4	& $0.8960651*10^{-5}$ \\
+\hline
+NC3H6	& $0.1469688*10^{-8}$ \\
+\hline
+NC3H8	& 0 \\
+\hline
+NH2O	& 0.9498516 \\
+\hline
+H_{OUT}	& -986.2812 \\
+\hline
+H_{IN}	& -821.5048 \\
+\hline
+E_{INPUT}	& -164.7764 \\
+\hline 
+
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\subsubsection{Temperature 750K}
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The equilibrium composition in the Reformer at 750K} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 750 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 1 \\
+\hline
+Z	& 1 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 1 \\
+\hline
+NINH2O	& 1 \\
+\hline
+NCH4 &	$0.4879889*10^{-1}$ \\
+\hline
+NCO	& $0.9623470*10^{-1}$ \\
+\hline
+NCO2	& 1.815392 \\
+\hline
+NC2H6	& $0.1182601*10^{-2}$ \\
+\hline
+NC2H4	& $0.1663232*10^{-1}$ \\
+\hline
+NC3H8	& $0.8766293*10^{-4}$ \\
+\hline
+NC3H6	& $0.1227132*10^{-2}$ \\
+\hline
+NH2O	& 0.6488497 \\
+\hline
+NH2 & 0.2127080 \\
+\hline
+H_{OUT}	& -986.2812 \\
+\hline
+H_{IN}	& -821.5048 \\
+\hline
+E_{INPUT}	& -164.7764 \\
+\hline 
+
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\subsubsection{Temperature 1000K}
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The equilibrium composition in the Reformer at 1000K} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 1000 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 1 \\
+\hline
+Z	& 1 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 1 \\
+\hline
+NINH2O	& 1 \\
+\hline
+NCH4 &	$0.5117639*10^{-2}$ \\
+\hline
+NCO	&  1.179757 \\
+\hline
+NCO2	& 0.7637956 \\
+\hline
+NC2H6	& $0.3994752*10^{-2}$ \\
+\hline
+NC2H4	& $0.1895940*10^{-1}$ \\
+\hline
+NC3H8	& $0.3135840*10^{-3}$ \\
+\hline
+NC3H6	& $0.1493485*10^{-2}$ \\
+\hline
+NH2O	& 0.6488497 \\
+\hline
+NH2 & 0.2127080 \\
+\hline
+H_{OUT}	& -429.7009 \\
+\hline
+H_{IN}	& -679.3400 \\
+\hline
+E_{INPUT}	& 249.6391 \\
+\hline 
+
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\subsubsection{Temperature 1250K}
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The equilibrium composition in the Reformer at 1250K} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 1250 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 1 \\
+\hline
+Z	& 1 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 1 \\
+\hline
+NINH2O	& 1 \\
+\hline
+NCH4 &	$0.1457321*10^{-4}$ \\
+\hline
+NCO	&  1.402912 \\
+\hline
+NCO2	& 0.5970406 \\
+\hline
+NC2H6	& $0.2638985*10^{-5}$ \\
+\hline
+NC2H4	& $0.1384036*10^{-4}$ \\
+\hline
+NC3H8	& $0.5520419*10^{-8}$ \\
+\hline
+NC3H6	& $0.2919904E*10^{-7}$ \\
+\hline
+NH2O	& 0.4030071 \\
+\hline
+NH2 & 0.5969281 \\
+\hline
+H_{OUT}	& -386.1235 \\
+\hline
+H_{IN}	& -679.3400 \\
+\hline
+E_{INPUT}	& 293.2165 \\
+\hline 
+
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\subsubsection{Temperature 1500K}
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The equilibrium composition in the Reformer at 1500K} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 1500 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 1 \\
+\hline
+Z	& 1 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 1 \\
+\hline
+NINH2O	& 1 \\
+\hline
+NCO	&  1.476488 \\
+\hline
+NCO2	& 0.5235116 \\
+\hline
+NCH4 &	$0.2072866*10^{-6}$ \\
+\hline
+NC2H6	& $0.1320318*10^{-7}$ \\
+\hline
+NC2H4	& $0.7877977*10^{-7}$ \\
+\hline
+NC3H8	& 0 \\
+\hline
+NC3H6	& 0 \\
+\hline
+NH2O	& 0.4764888 \\
+\hline
+NH2 & 0.5235106 \\
+\hline
+H_{OUT}	& -353.4078 \\
+\hline
+H_{IN}	& -679.3400 \\
+\hline
+E_{INPUT}	& 325.9322 \\
+\hline 
+
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+
+
+\subsection{Optimum Equilibrium Composition}
+The results from the LINGO\textsuperscript{\textregistered} are tabulated below. The program algorithm is similar to the formulation by Noureldin et al\cite{Nourel}. Each component of industrial significance is optimized to get the maximum yield for an input of 1 mol of Carbon(Coal). 
+
+\newpage
+\subsubsection{Syngas}
+The syngas composition of 1:2 is important in producing synthetic fuels and methanol. The results obtained are as follows
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The process conditions for producing syngas of composition CO:H_2 in ratio 1:2} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 1342.127 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 0.4488999 \\
+\hline
+Z	& 0.2608135 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 0.2608135 \\
+\hline
+NINH2O	& 0.4488999 \\
+\hline
+NCH4 &	$0.3210443*10^{-3}$ \\
+\hline
+NCO	& 1.096456 \\
+\hline
+NCO2	& $0.2645235*10^{-2}$ \\
+\hline
+NCH4	& $0.2645235*10^{-2}$ \\
+\hline
+NC2H6	& $0.2645235*10^{-2}$ \\
+\hline
+NC2H4	& $0.5326038*10^{-1}$ \\
+\hline
+NC3H6	& $0.1004598*10^{-1}$ \\
+\hline
+NC3H8	& $0.1804116*10^{-2}$ \\
+\hline
+NH2O	& $0.1289074*10^{-2}$ \\
+\hline
+H_{OUT}	& -77.78127 \\
+\hline
+H_{IN}	& -240.8270 \\
+\hline
+E_{INPUT}	& 163.0457 \\
+\hline 
+
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\newpage
+\subsubsection{Hydrogen rich Syngas}
+Hydrogen rich syngas are used in metallurgical applications and as feed stock for synthetic hydrocarbon fuels. Typically hydrogen rich syngas has a CO:H_2 ratio of $1:4$
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The process conditions for producing syngas of composition CO:H_2 in ratio 1:2} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 975 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 0 \\
+\hline
+NINH2O	& 3.092609 \\
+\hline
+NCH4 &	$0.3210443*10^{-3}$ \\
+\hline
+NCO	& 0.3919079 \\
+\hline
+NH2 & 1.567632 \\
+\hline
+NCO2	& $0.2645235*10^{-2}$ \\
+\hline
+NCH4	& $0.48807*10^{-2}$ \\
+\hline
+NC2H6	& $0.867541*10^{-3}$ \\
+\hline
+NC2H4	& $0.5326038*10^{-1}$ \\
+\hline
+NC3H6	& $0.5539485*10^{-4}$ \\
+\hline
+NC3H8	& $0.2030048*10^{-4}$ \\
+\hline
+NH2O	& 1.507645 \\
+\hline
+H_{OUT}	& -547.1724 \\
+\hline
+H_{IN}	& -883.9604 \\
+\hline
+E_{INPUT}	& 336.7880 \\
+\hline 
+
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+
+\newpage
+\subsubsection{Hydrogen}
+The process of producing hydrogen  in this model revolves around generating syngas and using the water gas shift to increase the hydrogen concentration. The results obtained are below  
+\FloatBarrier
+\begin{table}[H]
+\caption{The process conditions for producing maximum Hydrogen} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 907.7814 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 5 \\
+\hline
+Z	&  0 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 0 \\
+\hline
+NINH2O	&  5 \\
+\hline
+NCH4 &	 $0.58723668*10^{-2}$ \\
+\hline
+NCO	& 0.1988723  \\
+\hline
+NCO2	& 0.7931388  \\
+\hline
+NC2H6	& $0.2289840*10^{-3}$ \\
+\hline
+NC2H4	& $0.8116182*10^{-3}$ \\
+\hline
+NC3H6	& $0.2589619*10^{-5}$ \\
+\hline
+NC3H8	& $0.9187669*10^{-5}$ \\
+\hline
+NH2O	& 3.214850   \\
+\hline
+NH2 & 1.771057  \\
+\hline
+H_{OUT}	& -983.02991  \\
+\hline
+H_{IN}	& -1429.150   \\
+\hline
+E_{INPUT}	& 446.1201 \\
+\hline 
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\newpage
+\subsubsection{Methane}
+The gasification of coal to produce methane directly can be useful in some applications to produce synthetic coal gas
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The process conditions for producing maximum methane} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 1342.127 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 2.001064 \\
+\hline
+Z	&  0.2608135 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 0.2608135 \\
+\hline
+NINH2O	& 0.4488999 \\
+\hline
+NCH4 &	$0.3210443*10^{-3}$ \\
+\hline
+NCO	& 1.096456 \\
+\hline
+NCO2	& $0.2645235*10^{-2}$ \\
+\hline
+NCH4	& $0.2645235*10^{-2}$ \\
+\hline
+NC2H6	& $0.2645235*10^{-2}$ \\
+\hline
+NC2H4	& $0.5326038*10^{-1}$ \\
+\hline
+NC3H6	& $0.1004598*10^{-1}$ \\
+\hline
+NC3H8	& $0.1804116*10^{-2}$ \\
+\hline
+NH2O	& $0.1289074*10^{-2}$ \\
+\hline
+H_{OUT}	& -77.78127 \\
+\hline
+H_{IN}	& -240.8270 \\
+\hline
+E_{INPUT}	& 163.0457 \\
+\hline 
+
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\newpage
+\subsubsection{Ethane}
+\FloatBarrier
+\begin{table}[H]
+\caption{The process conditions for producing maximum Ethane} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 914.0579 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 1.107026 \\
+\hline
+Z	&  0 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 0 \\
+\hline
+NINH2O	&  1.107026 \\
+\hline
+NCH4 &	 0.0307924 \\
+\hline
+NCO	&  0.3052146  \\
+\hline
+NCO2	& 0.2993268 \\
+\hline
+NC2H6	& 0.02960754 \\
+\hline
+NC2H4	&  0.1018332 \\
+\hline
+NC3H6	& $0.2629258*10^{-1}$ \\
+\hline
+NC3H8	& $0.7635581*10^{-2}$ \\
+\hline
+NH2O	& 0.2031581 \\
+\hline
+NH2 &  0.4403743 \\
+\hline
+H_{OUT}	& -175.2597   \\
+\hline
+H_{IN}	& -316.4214  \\
+\hline
+E_{INPUT}	& 141.1617  \\
+\hline 
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+
+\newpage
+\subsubsection{Ethene}
+The process conditions to form maximum ethene are tabulated below 
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The process conditions for producing maximum Ethene} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	&  835.8418 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 0.7750835 \\
+\hline
+Z	&  0 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 0 \\
+\hline
+NINH2O	&  5 \\
+\hline
+NCH4 &	 $0.58723668*10^{-2}$ \\
+\hline
+NCO	& 0.1988723  \\
+\hline
+NCO2	& 0.7931388  \\
+\hline
+NC2H6	& $0.2289840*10^{-3}$ \\
+\hline
+NC2H4	& $0.8116182*10^{-3}$ \\
+\hline
+NC3H6	& $0.2589619*10^{-5}$ \\
+\hline
+NC3H8	& $0.9187669*10^{-5}$ \\
+\hline
+NH2O	& 3.214850   \\
+\hline
+NH2 & 1.771057  \\
+\hline
+H_{OUT}	& -983.02991  \\
+\hline
+H_{IN}	& -1429.150   \\
+\hline
+E_{INPUT}	& 446.1201 \\
+\hline 
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\newpage
+\subsubsection{Propane}
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The process conditions for producing maximum Propane} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	& 896.8116 \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 0.9021566 \\
+\hline
+Z	&  0 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 0 \\
+\hline
+NINH2O	&  0.9021566 \\
+\hline
+NCH4 &	 0.2774660 \\
+\hline
+NCO	&  0.2626444  \\
+\hline
+NCO2	& 0.2645162 \\
+\hline
+NC2H6	& 0.002681794 \\
+\hline
+NC2H4	& 0.1232008 \\
+\hline
+NC3H6	& $0.3971280*10^{-1}$ \\
+\hline
+NC3H8	& $00.8639*10^{-2}$ \\
+\hline
+NH2O	& 0.1104798 \\
+\hline
+NH2 & 0.2556339 \\
+\hline
+H_{OUT}	& -134.3901  \\
+\hline
+H_{IN}	& -257.8634 \\
+\hline
+E_{INPUT}	& 123.4734 \\
+\hline 
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+
+\newpage
+\subsubsection{Propene}
+The process conditions to form maximum propene are tabulated below 
+
+\FloatBarrier
+\begin{table}[H]
+\caption{The process conditions for producing maximum Propene} 
+\centering
+\begin{tabular}{|c|c|}
+\hline\hline %inserts double horizontal lines
+Variable & Value \\ 
+[1ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+T	&  914.0579  \\
+\hline
+X	 & 0 \\
+\hline
+Y	& 1.107026  \\
+\hline
+Z	&  0 \\
+\hline
+NINC	& 1 \\
+\hline
+NINCO2	& 0 \\
+\hline
+NINH2O	&  1.107026  \\
+\hline
+NCH4 &	 $0.3079245*10^{-1}$ \\
+\hline
+NCO	& 0.3052146  \\
+\hline
+NCO2	& 0.2993268  \\
+\hline
+NC2H6	& $0.2960754*10^{-1}$ \\
+\hline
+NC2H4	& 0.1018332   \\
+\hline
+NC3H6	& $0.2629258*10^{-1}$ \\
+\hline
+NC3H8	& $0.7635581*10^{-2}$ \\
+\hline
+NH2O	&  0.2031581     \\
+\hline
+NH2 & 0.4403743  \\
+\hline
+H_{OUT}	& -175.2597    \\
+\hline
+H_{IN}	& -316.4214   \\
+\hline
+E_{INPUT}	& 141.1617   \\
+\hline 
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\subsection{Mathematical Program to consider coal composition}
+The coal composition is used to construct a mathematical program to directly evaluate the outlet composition using the same equilibrium model as above. The general chemical reaction scheme is as follows
+
+\begin{scheme} 
+\ce{C_{a}H_{b}O_{c} + (\frac{d+e}{2}) H_{2}O + CO_2  -> f CO + g H2 + h H_{2}O + i CO_2 + j C_nH_m}   
+\end{scheme} 
+\\
+The appropriate constraints and optimizing variables are similar to the ones described in the previous case. The atomic balances are added per the general chemical structure shown here.\\
+
+\section{Conclusions}
+Some of the general trends observed in the formulation that are supported by the literature and experimental insights are  
+
+\begin{itemize}
+\item Higher temperature favors lower carbon chain hydrocarbons and vice versa
+\item Higher steam inlet favor higher hydrogen and alkane concentration
+\item Higher Carbon Dioxide inlet concentration increases the carbon monoxide concentration and the energy usage
+\item Hydrogen production is both water and energy intensive
+\end{itemize} 
+
+While the work could not examine the effect of coal composition due to convergence issues with the LINGO code, the general trends still would still hold good. \\
+
+This work can be used to build up a much detailed mathematical program to include the effects of sulfur, ash production issues and more rigorous methods to estimate the hydrocarbon concentration.\\ 
+   
+The work also attempted to optimize the syngas composition for cases of \ce{CO}:\ce{H_2} of $1:2$ and $1:4$ and future studies may concentrate on recycle and mixing streams to appropriately mix it for Fisher-Tropsch synthesis or other feedstock preparation as noted earlier in the work. The production economics of the work and further optimization of the feed stock and life cycle analysis of sulfur would be the logical progression to this work. \\ 
+
+\bibliographystyle{achemso}
+\bibliography{CHEN689}
+     
+\end{document}
